@@ -88,7 +88,7 @@ void free_section(section *s)
 {
     free(s->type);
     node *n = s->options->front;
-    while(n) {
+    while (n) {
         kvp *pair = (kvp *)n->val;
         free(pair->key);
         free(pair);
@@ -108,7 +108,7 @@ void parse_data(char *data, float *a, int n)
     char *next = data;
     int done = 0;
     for (i = 0; i < n && !done; ++i) {
-        while(*++next !='\0' && *next != ',');
+        while (*++next !='\0' && *next != ',');
         if (*next == '\0') done = 1;
         *next = '\0';
         sscanf(curr, "%g", &a[i]);
@@ -634,7 +634,7 @@ route_layer parse_route(list *options, size_params params, network *net)
         convolutional_layer next = net->layers[index];
         if (next.out_w == first.out_w && next.out_h == first.out_h) {
             layer.out_c += next.out_c;
-        }else{
+        } else {
             layer.out_h = layer.out_w = layer.out_c = 0;
         }
     }
@@ -773,7 +773,7 @@ network *parse_network_cfg(char *filename)
     int count = 0;
     free_section(s);
     fprintf(stderr, "layer     filters    size              input                output\n");
-    while(n) {
+    while (n) {
         params.index = count;
         fprintf(stderr, "%5d ", count);
         s = (section*) n->val;
@@ -782,56 +782,56 @@ network *parse_network_cfg(char *filename)
         LAYER_TYPE lt = string_to_layer_type(s->type);
         if (lt == CONVOLUTIONAL) {
             l = parse_convolutional(options, params);
-        }else if (lt == DECONVOLUTIONAL) {
+        } else if (lt == DECONVOLUTIONAL) {
             l = parse_deconvolutional(options, params);
-        }else if (lt == LOCAL) {
+        } else if (lt == LOCAL) {
             l = parse_local(options, params);
-        }else if (lt == ACTIVE) {
+        } else if (lt == ACTIVE) {
             l = parse_activation(options, params);
-        }else if (lt == LOGXENT) {
+        } else if (lt == LOGXENT) {
             l = parse_logistic(options, params);
-        }else if (lt == L2NORM) {
+        } else if (lt == L2NORM) {
             l = parse_l2norm(options, params);
-        }else if (lt == RNN) {
+        } else if (lt == RNN) {
             l = parse_rnn(options, params);
-        }else if (lt == GRU) {
+        } else if (lt == GRU) {
             l = parse_gru(options, params);
-        }else if (lt == LSTM) {
+        } else if (lt == LSTM) {
             l = parse_lstm(options, params);
-        }else if (lt == CRNN) {
+        } else if (lt == CRNN) {
             l = parse_crnn(options, params);
-        }else if (lt == CONNECTED) {
+        } else if (lt == CONNECTED) {
             l = parse_connected(options, params);
-        }else if (lt == CROP) {
+        } else if (lt == CROP) {
             l = parse_crop(options, params);
-        }else if (lt == COST) {
+        } else if (lt == COST) {
             l = parse_cost(options, params);
-        }else if (lt == REGION) {
+        } else if (lt == REGION) {
             l = parse_region(options, params);
-        }else if (lt == YOLO) {
+        } else if (lt == YOLO) {
             l = parse_yolo(options, params);
-        }else if (lt == DETECTION) {
+        } else if (lt == DETECTION) {
             l = parse_detection(options, params);
-        }else if (lt == SOFTMAX) {
+        } else if (lt == SOFTMAX) {
             l = parse_softmax(options, params);
             net->hierarchy = l.softmax_tree;
-        }else if (lt == NORMALIZATION) {
+        } else if (lt == NORMALIZATION) {
             l = parse_normalization(options, params);
-        }else if (lt == BATCHNORM) {
+        } else if (lt == BATCHNORM) {
             l = parse_batchnorm(options, params);
-        }else if (lt == MAXPOOL) {
+        } else if (lt == MAXPOOL) {
             l = parse_maxpool(options, params);
-        }else if (lt == REORG) {
+        } else if (lt == REORG) {
             l = parse_reorg(options, params);
-        }else if (lt == AVGPOOL) {
+        } else if (lt == AVGPOOL) {
             l = parse_avgpool(options, params);
-        }else if (lt == ROUTE) {
+        } else if (lt == ROUTE) {
             l = parse_route(options, params, net);
-        }else if (lt == UPSAMPLE) {
+        } else if (lt == UPSAMPLE) {
             l = parse_upsample(options, params, net);
-        }else if (lt == SHORTCUT) {
+        } else if (lt == SHORTCUT) {
             l = parse_shortcut(options, params, net);
-        }else if (lt == DROPOUT) {
+        } else if (lt == DROPOUT) {
             l = parse_dropout(options, params);
             l.output = net->layers[count-1].output;
             l.delta = net->layers[count-1].delta;
@@ -839,7 +839,7 @@ network *parse_network_cfg(char *filename)
             l.output_gpu = net->layers[count-1].output_gpu;
             l.delta_gpu = net->layers[count-1].delta_gpu;
 #endif
-        }else{
+        } else {
             fprintf(stderr, "Type not recognized: %s\n", s->type);
         }
         l.clip = net->clip;
@@ -882,7 +882,7 @@ network *parse_network_cfg(char *filename)
 #ifdef GPU
         if (gpu_index >= 0) {
             net->workspace = cuda_make_array(0, (workspace_size-1)/sizeof(float)+1);
-        }else {
+        } else {
             net->workspace = calloc(1, workspace_size);
         }
 #else
@@ -900,7 +900,7 @@ list *read_cfg(char *filename)
     int nu = 0;
     list *options = make_list();
     section *current = 0;
-    while((line=fgetl(file)) != 0) {
+    while ((line=fgetl(file)) != 0) {
         ++ nu;
         strip(line);
         switch(line[0]) {

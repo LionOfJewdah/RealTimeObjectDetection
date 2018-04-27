@@ -129,7 +129,9 @@ void train_detector(char* datacfg, char* cfgfile, char* weightfile, int* gpus,
 		free_data(train);
 	}
 #ifdef GPU
-	if (ngpus != 1) sync_nets(nets, ngpus, 0);
+	if (ngpus != 1) {
+		sync_nets(nets, ngpus, 0);
+	}
 #endif
 	char buff[256];
 	sprintf(buff, "%s/%s_final.weights", backup_directory, base);

@@ -276,7 +276,7 @@ void backward_network(network *netp)
         if (l.stopbackward) break;
         if (i == 0) {
             net = orig;
-        }else{
+        } else {
             layer prev = net.layers[i-1];
             net.input = prev.output;
             net.delta = prev.delta;
@@ -375,29 +375,29 @@ int resize_network(network *net, int w, int h)
         layer l = net->layers[i];
         if (l.type == CONVOLUTIONAL) {
             resize_convolutional_layer(&l, w, h);
-        }else if (l.type == CROP) {
+        } else if (l.type == CROP) {
             resize_crop_layer(&l, w, h);
-        }else if (l.type == MAXPOOL) {
+        } else if (l.type == MAXPOOL) {
             resize_maxpool_layer(&l, w, h);
-        }else if (l.type == REGION) {
+        } else if (l.type == REGION) {
             resize_region_layer(&l, w, h);
-        }else if (l.type == YOLO) {
+        } else if (l.type == YOLO) {
             resize_yolo_layer(&l, w, h);
-        }else if (l.type == ROUTE) {
+        } else if (l.type == ROUTE) {
             resize_route_layer(&l, net);
-        }else if (l.type == SHORTCUT) {
+        } else if (l.type == SHORTCUT) {
             resize_shortcut_layer(&l, w, h);
-        }else if (l.type == UPSAMPLE) {
+        } else if (l.type == UPSAMPLE) {
             resize_upsample_layer(&l, w, h);
-        }else if (l.type == REORG) {
+        } else if (l.type == REORG) {
             resize_reorg_layer(&l, w, h);
-        }else if (l.type == AVGPOOL) {
+        } else if (l.type == AVGPOOL) {
             resize_avgpool_layer(&l, w, h);
-        }else if (l.type == NORMALIZATION) {
+        } else if (l.type == NORMALIZATION) {
             resize_normalization_layer(&l, w, h);
-        }else if (l.type == COST) {
+        } else if (l.type == COST) {
             resize_cost_layer(&l, inputs);
-        }else{
+        } else {
             error("Cannot resize this type of layer");
         }
         if (l.workspace_size > workspace_size) workspace_size = l.workspace_size;
@@ -427,7 +427,7 @@ int resize_network(network *net, int w, int h)
         if (workspace_size) {
             net->workspace = cuda_make_array(0, (workspace_size-1)/sizeof(float)+1);
         }
-    }else {
+    } else {
         free(net->workspace);
         net->workspace = calloc(1, workspace_size);
     }
@@ -673,7 +673,7 @@ void compare_networks(network *n1, network *n2, data test)
         if (p1 == truth) {
             if (p2 == truth) ++d;
             else ++c;
-        }else{
+        } else {
             if (p2 == truth) ++b;
             else ++a;
         }
@@ -804,7 +804,7 @@ void backward_network_gpu(network *netp)
         if (l.stopbackward) break;
         if (i == 0) {
             net = orig;
-        }else{
+        } else {
             layer prev = net.layers[i-1];
             net.input = prev.output;
             net.delta = prev.delta;
